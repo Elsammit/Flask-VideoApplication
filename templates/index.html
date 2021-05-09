@@ -1,0 +1,40 @@
+<html>
+  <head>
+    <title>動画再生App</title>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="{{url_for('static', filename='js/script.js')}}"></script>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/style.css')}}">
+  </head>
+  <body>
+    <h1>動画再生App</h1>
+    <!--input type="file" id="VideoFile"/><br/-->
+    <img id="movieArea" src="{{ url_for('video_feed') }}" alt="再生動画"><br/>
+    <div id="seekbox">
+      <div class="seekbar" id="sekbar"></div>
+    </div>
+    <div id="InputLine">
+      <ul class="InputTab" id="Start">
+        <div class="current"><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32"  class="StClss">
+          <title>play3</title>
+          <path d="M6 4l20 12-20 12z"></path>
+        </svg></div>
+        <div><svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32">
+          <title>pause2</title>
+          <path d="M4 4h10v24h-10zM18 4h10v24h-10z"></path>
+        </svg></div>
+      </ul>
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" id="Stop" class="StpClss">
+        <title>stop2</title>
+        <path d="M4 4h24v24h-24z"></path>
+      </svg>
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" id="Speed" class="SpdClss">
+        <title>forward3</title>
+        <path d="M16 27v-10l-10 10v-22l10 10v-10l11 11z"></path>
+      </svg>
+      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" id="Rewind" class="ReClss">
+        <title>backward2</title>
+        <path d="M18 5v10l10-10v22l-10-10v10l-11-11z"></path>
+      </svg>
+    </div>
+  </body>
+</html>
