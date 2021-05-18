@@ -38,7 +38,7 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #動画開始
-@app.route('/start')
+@app.route('/start', methods=["POST"])
 def start_movie():
     print("start")
     Camera.rewindFlg = False
