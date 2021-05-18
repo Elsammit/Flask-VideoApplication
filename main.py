@@ -4,6 +4,19 @@ import os
 from flask import Flask, render_template, Response, url_for
 from camera import Camera
 import cv2
+from absl import app, flags, logging
+from absl.flags import FLAGS
+
+flags.DEFINE_string('classes', './data/coco.names', 'path to classes file')
+flags.DEFINE_string('weights', './checkpoints/yolov3.tf',
+                    'path to weights file')
+flags.DEFINE_boolean('tiny', False, 'yolov3 or yolov3-tiny')
+flags.DEFINE_integer('size', 416, 'resize images to')
+flags.DEFINE_string('video', './data/video.mp4',
+                    'path to video file or number for webcam)')
+flags.DEFINE_string('output', None, 'path to output video')
+flags.DEFINE_string('output_format', 'XVID', 'codec used in VideoWriter when saving video to file')
+flags.DEFINE_integer('num_classes', 80, 'number of classes in the model')
 
 app = Flask(__name__)
 
@@ -38,7 +51,7 @@ def video_feed():
                     mimetype='multipart/x-mixed-replace; boundary=frame')
 
 #動画開始
-@app.route('/start')
+@app.route('/start', methods=["POST"])
 def start_movie():
     print("start")
     Camera.rewindFlg = False
