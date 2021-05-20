@@ -60,7 +60,6 @@ def stop_movie():
     Camera.cap = cv2.VideoCapture(Camera.MoviePath)
     Camera.stop = False
     video_feed()
-    #return Response("OK", 200)
 
 #早送りスピード調整
 @app.route('/speed', methods=["POST"])

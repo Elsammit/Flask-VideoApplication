@@ -17,8 +17,8 @@ class Camera(BaseCamera):
     rewindFlg = False
     progress = 0
     MoviePath = 'Airport - 36510.mp4'
-    #cap = cv2.VideoCapture(MoviePath)
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(MoviePath)
+    #cap = cv2.VideoCapture(0)
 
     if (cap.isOpened()== False):
         print("File Open Error")

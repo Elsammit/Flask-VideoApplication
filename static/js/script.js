@@ -96,3 +96,17 @@ setInterval(function(){
         console.log("error");
     })
 }, 1000);
+
+function changeImages(obj){
+    console.log("call changeImages");
+    var fileReader = new FileReader();  // フォルダを開き画像選択させる.
+    //var inputFile = "inputFile" + Num;  // 選択した画像番号を指定.
+    fileReader.onload = (function(){
+        //var photoNum = "photoNum" + Num;
+        document.getElementById("upfile").src = fileReader.result;  
+        console.log("file upload : " + fileReader.result);
+    });
+    //console.log("file upload : " + fileReader.result);
+    console.log(document.getElementById("upfile").files[0]);
+    //fileReader.readAsDataURL(obj.files[0]);  // 選択した画像をセット.
+}
