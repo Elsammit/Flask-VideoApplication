@@ -109,4 +109,14 @@ function changeImages(obj){
     //console.log("file upload : " + fileReader.result);
     console.log(document.getElementById("upfile").files[0]);
     //fileReader.readAsDataURL(obj.files[0]);  // 選択した画像をセット.
+    var hostUrl= '/test';
+        $.ajax({
+            url: hostUrl,
+            type:'POST',
+            timeout:3000,
+        }).done(function(data) {
+                          console.log("ok");
+        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+                         console.log("error");
+        })
 }

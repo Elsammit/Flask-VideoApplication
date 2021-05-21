@@ -90,5 +90,11 @@ def rewind_movie():
 def get_progress():
     return Response(str(Camera.progress), 200)
 
+#動画進捗状況送信
+@app.route('/test', methods=["POST"])
+def get_test():
+    print("test test test")
+    return Response(str(Camera.progress), 200)
+
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)
