@@ -1,8 +1,7 @@
 import time
 from base_camera import BaseCamera
-import cv2
+import cv2, pafy
 import time
-import cv2
 import tensorflow as tf
 from yolov3_tf2.models import (
     YoloV3, YoloV3Tiny
@@ -17,7 +16,11 @@ class Camera(BaseCamera):
     rewindFlg = False
     progress = 0
     MoviePath = 'Airport - 36510.mp4'
-    cap = cv2.VideoCapture(MoviePath)
+    #cap = cv2.VideoCapture(MoviePath)
+    url   = "https://youtu.be/2fJHnH-JXgc"
+    video = pafy.new(url)
+    best  = video.getbest()
+    cap = cv2.VideoCapture(best.url)
     #cap = cv2.VideoCapture(0)
 
     if (cap.isOpened()== False):
