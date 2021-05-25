@@ -17,9 +17,9 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
+        }).done(function() {
             console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+        }).fail(function() {
             console.log("error");
         })
     });
@@ -37,10 +37,10 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
-                          console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                         console.log("error");
+        }).done(function() {
+            console.log("ok");
+        }).fail(function() {
+            console.log("error");
         })
     });
 } );
@@ -54,9 +54,9 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
+        }).done(function() {
             console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+        }).fail(function() {
             console.log("error");
         })
     });
@@ -71,10 +71,10 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
-                          console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                         console.log("error");
+        }).done(function() {
+            console.log("ok");
+        }).fail(function() {
+            console.log("error");
         })
     });
 } );
@@ -82,7 +82,6 @@ $( function() {
 
 setInterval(function(){
     var hostUrl= '/progress';
-    let counter = 0
 
     $.ajax({
         url: hostUrl,
@@ -92,7 +91,7 @@ setInterval(function(){
         console.log(data);
         seekClass = document.getElementById("sekbar");
         seekClass.style.width = String(data)+'%'; 
-    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+    }).fail(function() {
         console.log("error");
     })
 }, 1000);
@@ -100,23 +99,19 @@ setInterval(function(){
 function changeImages(obj){
     console.log("call changeImages");
     var fileReader = new FileReader();  // フォルダを開き画像選択させる.
-    //var inputFile = "inputFile" + Num;  // 選択した画像番号を指定.
     fileReader.onload = (function(){
-        //var photoNum = "photoNum" + Num;
         document.getElementById("upfile").src = fileReader.result;  
         console.log("file upload : " + fileReader.result);
     });
-    //console.log("file upload : " + fileReader.result);
     console.log(document.getElementById("upfile").files[0]);
-    //fileReader.readAsDataURL(obj.files[0]);  // 選択した画像をセット.
     var hostUrl= '/test';
         $.ajax({
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
-                          console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                         console.log("error");
+        }).done(function() {
+            console.log("ok");
+        }).fail(function() {
+            console.log("error");
         })
 }
