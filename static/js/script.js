@@ -104,6 +104,7 @@ function changeImages(obj){
         console.log("file upload : " + fileReader.result);
     });
     console.log(document.getElementById("upfile").files[0]);
+    console.log(document.getElementById("upfile").files[0].size);
     var hostUrl= '/test';
         $.ajax({
             url: hostUrl,
