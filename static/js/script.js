@@ -105,10 +105,13 @@ function changeImages(obj){
     });
     console.log(document.getElementById("upfile").files[0]);
     console.log(document.getElementById("upfile").files[0].size);
+    var formdata = new FormData($('#my_form').get(0));
+    console.log(formdata);
     var hostUrl= '/test';
         $.ajax({
             url: hostUrl,
             type:'POST',
+            data:document.getElementById("upfile").files[0].size,
             timeout:3000,
         }).done(function() {
             console.log("ok");

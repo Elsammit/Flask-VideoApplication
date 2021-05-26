@@ -7,7 +7,10 @@
   </head>
   <body>
     <h1>動画再生App</h1>
-    <p><input type="file" name="upfile" id="upfile" accept="video/*" capture="camera" onchange="changeImages(this);"></p>
+    <form id="my_form">
+      <p><input type="file" name="upfile" id="upfile" accept="video/*" capture="camera" onchange="changeImages(this);"></p>
+    </form>
+    
     <img id="movieArea" src="{{ url_for('video_feed') }}" alt="再生動画"><br/>
     <div id="seekbox">
       <div class="seekbar" id="sekbar"></div>
