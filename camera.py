@@ -15,12 +15,14 @@ class Camera(BaseCamera):
     stop = True
     rewindFlg = False
     progress = 0
-    MoviePath = 'Airport - 36510.mp4'
-    #cap = cv2.VideoCapture(MoviePath)
+    MoviePath = 'uploads/Airport - 36510.mp4'
+    cap = cv2.VideoCapture(MoviePath)
+    '''
     url   = "https://youtu.be/2fJHnH-JXgc"
     video = pafy.new(url)
     best  = video.getbest()
     cap = cv2.VideoCapture(best.url)
+    '''
     #cap = cv2.VideoCapture(0)
 
     if (cap.isOpened()== False):

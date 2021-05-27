@@ -1,11 +1,15 @@
 #!/usr/bin/env python
 from importlib import import_module
 import os
-from flask import Flask, render_template, Response, url_for
+from flask import Flask, render_template, Response, url_for, request, redirect
 from camera import Camera
 import cv2
 
+UPLOAD_FOLDER = './uploads'
+
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.context_processor
 def override_url_for():
@@ -90,11 +94,26 @@ def rewind_movie():
 def get_progress():
     return Response(str(Camera.progress), 200)
 
-#動画進捗状況送信
+#動画取得
 @app.route('/test', methods=["POST"])
 def get_test():
-    print("test test test")
-    return Response(str(Camera.progress), 200)
+     # ファイルがなかった場合の処理
+    if 'file' not in request.files:
+        print('ファイルがありません')
+        return redirect('/')
+    # データの取り出し
+    file = request.files['file']
+    # ファイル名がなかった時の処理
+    if file.filename == '':
+        print('ファイルがありません')
+        return redirect("/")
+    filename = file.filename
+    Camera.MoviePath = filename
+    # ファイルの保存
+    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    Camera.cap = cv2.VideoCapture(Camera.MoviePath)
+    # アップロード後のページに転送
+    return redirect("/")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)

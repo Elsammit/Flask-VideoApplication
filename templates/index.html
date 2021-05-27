@@ -7,8 +7,9 @@
   </head>
   <body>
     <h1>動画再生App</h1>
-    <form id="my_form">
-      <p><input type="file" name="upfile" id="upfile" accept="video/*" capture="camera" onchange="changeImages(this);"></p>
+    <form method = post enctype = multipart/form-data action = "/test">
+      <p><input type=file name = file>
+      <input type = submit value = Upload>
     </form>
     
     <img id="movieArea" src="{{ url_for('video_feed') }}" alt="再生動画"><br/>

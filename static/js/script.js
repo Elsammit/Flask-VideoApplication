@@ -105,17 +105,37 @@ function changeImages(obj){
     });
     console.log(document.getElementById("upfile").files[0]);
     console.log(document.getElementById("upfile").files[0].size);
-    var formdata = new FormData($('#my_form').get(0));
+    var formdata = new FormData();
+    formdata.append("upfile", document.getElementById("upfile").files[0])
     console.log(formdata);
     var hostUrl= '/test';
         $.ajax({
             url: hostUrl,
             type:'POST',
-            data:document.getElementById("upfile").files[0].size,
+            processData: false,
+            data:document.getElementById("upfile").files[0],
             timeout:3000,
+            dataType: 'json',
         }).done(function() {
             console.log("ok");
         }).fail(function() {
             console.log("error");
         })
 }
+
+$(function(){
+    $('#foo').submit(function(){
+        $.ajax({
+            url: '/test',
+            type: 'POST',
+            data: {
+                'file': $('#file').val()
+            },
+            dataType: 'json'
+        })
+        .done(function( data ) {
+            $('#result').text(data.width + "x" + data.height);
+        });
+        return false;
+    });
+});
