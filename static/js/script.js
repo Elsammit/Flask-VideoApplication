@@ -17,9 +17,9 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
+        }).done(function() {
             console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+        }).fail(function() {
             console.log("error");
         })
     });
@@ -37,10 +37,10 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
-                          console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                         console.log("error");
+        }).done(function() {
+            console.log("ok");
+        }).fail(function() {
+            console.log("error");
         })
     });
 } );
@@ -54,9 +54,9 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
+        }).done(function() {
             console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+        }).fail(function() {
             console.log("error");
         })
     });
@@ -71,10 +71,10 @@ $( function() {
             url: hostUrl,
             type:'POST',
             timeout:3000,
-        }).done(function(data) {
-                          console.log("ok");
-        }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
-                         console.log("error");
+        }).done(function() {
+            console.log("ok");
+        }).fail(function() {
+            console.log("error");
         })
     });
 } );
@@ -82,7 +82,6 @@ $( function() {
 
 setInterval(function(){
     var hostUrl= '/progress';
-    let counter = 0
 
     $.ajax({
         url: hostUrl,
@@ -92,7 +91,51 @@ setInterval(function(){
         console.log(data);
         seekClass = document.getElementById("sekbar");
         seekClass.style.width = String(data)+'%'; 
-    }).fail(function(XMLHttpRequest, textStatus, errorThrown) {
+    }).fail(function() {
         console.log("error");
     })
 }, 1000);
+
+function changeImages(obj){
+    console.log("call changeImages");
+    var fileReader = new FileReader();  // フォルダを開き画像選択させる.
+    fileReader.onload = (function(){
+        document.getElementById("upfile").src = fileReader.result;  
+        console.log("file upload : " + fileReader.result);
+    });
+    console.log(document.getElementById("upfile").files[0]);
+    console.log(document.getElementById("upfile").files[0].size);
+    var formdata = new FormData();
+    formdata.append("upfile", document.getElementById("upfile").files[0])
+    console.log(formdata);
+    var hostUrl= '/test';
+        $.ajax({
+            url: hostUrl,
+            type:'POST',
+            processData: false,
+            data:document.getElementById("upfile").files[0],
+            timeout:3000,
+            dataType: 'json',
+        }).done(function() {
+            console.log("ok");
+        }).fail(function() {
+            console.log("error");
+        })
+}
+
+$(function(){
+    $('#foo').submit(function(){
+        $.ajax({
+            url: '/test',
+            type: 'POST',
+            data: {
+                'file': $('#file').val()
+            },
+            dataType: 'json'
+        })
+        .done(function( data ) {
+            $('#result').text(data.width + "x" + data.height);
+        });
+        return false;
+    });
+});

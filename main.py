@@ -1,11 +1,22 @@
 #!/usr/bin/env python
 from importlib import import_module
 import os
-from flask import Flask, render_template, Response, url_for
+from flask import Flask, render_template, Response, url_for, request, redirect
 from camera import Camera
 import cv2
+from werkzeug.utils import secure_filename
+
+ALLOWED_EXTENSIONS = set(['mp4', 'wmv', 'avi', 'gif'])
+UPLOAD_FOLDER = './uploads'
 
 app = Flask(__name__)
+
+app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allwed_file(filename):
+    # .があるかどうかのチェックと、拡張子の確認
+    # OKなら１、だめなら0
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.context_processor
 def override_url_for():
@@ -60,7 +71,6 @@ def stop_movie():
     Camera.cap = cv2.VideoCapture(Camera.MoviePath)
     Camera.stop = False
     video_feed()
-    #return Response("OK", 200)
 
 #早送りスピード調整
 @app.route('/speed', methods=["POST"])
@@ -90,6 +100,33 @@ def rewind_movie():
 @app.route('/progress', methods=["POST"])
 def get_progress():
     return Response(str(Camera.progress), 200)
+
+#動画取得
+@app.route('/test', methods=["POST"])
+def get_test():
+     # ファイルがなかった場合の処理
+    if 'file' not in request.files:
+        print('ファイルがありません')
+        return redirect('/')
+    # データの取り出し
+    file = request.files['file']
+    # ファイル名がなかった時の処理
+    if file.filename == '':
+        print('ファイルがありません')
+        return redirect("/")
+    if file and allwed_file(file.filename):
+        # 危険な文字を削除（サニタイズ処理）
+        filename = secure_filename(file.filename)
+        #filename = file.filename
+        Camera.MoviePath = filename
+        # ファイルの保存
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        Camera.cap = cv2.VideoCapture(Camera.MoviePath)
+        # アップロード後のページに転送
+        return redirect("/")
+    else:
+        print("not movie file")
+        return redirect("/")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)
