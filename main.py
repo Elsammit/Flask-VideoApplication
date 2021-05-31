@@ -4,12 +4,19 @@ import os
 from flask import Flask, render_template, Response, url_for, request, redirect
 from camera import Camera
 import cv2
+from werkzeug.utils import secure_filename
 
+ALLOWED_EXTENSIONS = set(['mp4', 'wmv', 'avi', 'gif'])
 UPLOAD_FOLDER = './uploads'
 
 app = Flask(__name__)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+
+def allwed_file(filename):
+    # .があるかどうかのチェックと、拡張子の確認
+    # OKなら１、だめなら0
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.context_processor
 def override_url_for():
@@ -107,13 +114,19 @@ def get_test():
     if file.filename == '':
         print('ファイルがありません')
         return redirect("/")
-    filename = file.filename
-    Camera.MoviePath = filename
-    # ファイルの保存
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    Camera.cap = cv2.VideoCapture(Camera.MoviePath)
-    # アップロード後のページに転送
-    return redirect("/")
+    if file and allwed_file(file.filename):
+        # 危険な文字を削除（サニタイズ処理）
+        filename = secure_filename(file.filename)
+        #filename = file.filename
+        Camera.MoviePath = filename
+        # ファイルの保存
+        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        Camera.cap = cv2.VideoCapture(Camera.MoviePath)
+        # アップロード後のページに転送
+        return redirect("/")
+    else:
+        print("not movie file")
+        return redirect("/")
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', threaded=True)
