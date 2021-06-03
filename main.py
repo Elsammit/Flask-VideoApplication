@@ -102,28 +102,21 @@ def get_progress():
     return Response(str(Camera.progress), 200)
 
 #動画取得
-@app.route('/test', methods=["POST"])
+@app.route('/upload', methods=["POST"])
 def get_test():
-     # ファイルがなかった場合の処理
-    if 'file' not in request.files:
+    if 'file' not in request.files: # ファイルがなかった場合
         print('ファイルがありません')
         return redirect('/')
-    # データの取り出し
-    file = request.files['file']
-    # ファイル名がなかった時の処理
-    if file.filename == '':
+    file = request.files['file']    # データの取り出し
+    if file.filename == '':         # ファイル名がなかった場合
         print('ファイルがありません')
         return redirect("/")
     if file and allwed_file(file.filename):
-        # 危険な文字を削除（サニタイズ処理）
-        filename = secure_filename(file.filename)
-        #filename = file.filename
-        Camera.MoviePath = filename
-        # ファイルの保存
+        filename = secure_filename(file.filename)   # 危険な文字を削除（サニタイズ処理）
+        # ファイルの保存し保存したファイルから動画読み出し.
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        Camera.cap = cv2.VideoCapture(Camera.MoviePath)
-        # アップロード後のページに転送
-        return redirect("/")
+        Camera.cap = cv2.VideoCapture(UPLOAD_FOLDER+"/"+filename)
+        return redirect("/")                        # アップロード後のページに転送
     else:
         print("not movie file")
         return redirect("/")
